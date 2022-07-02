@@ -1,0 +1,178 @@
+<section>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 col-sm-6" style="height: 100vh">
+        <div class="d-flex align-items-center" style="height: 100%">
+          <img
+            src="assets/image/signupCat.svg"
+            class="img-fluid"
+            style="vertical-align: middle"
+          />
+        </div>
+      </div>
+      <div class="col-12 col-sm-6">
+        <div
+          class="d-flex align-items-center justify-content-center"
+          style="height: 100%"
+        >
+          <div style="width: 70%">
+            <form
+              class="form-horizontal"
+              [formGroup]="signUpForm"
+              (submit)="onSubmit()"
+            >
+              <div class="d-flex col-sm-8 justify-content-center">
+                <div
+                  class="text-dark pl-5"
+                  style="font-weight: bold; font-size: 20px"
+                >
+                  Sign Up!
+                </div>
+              </div>
+
+              <div class="form-group mb-4 position-relative">
+                <label for="name" class="col-sm-2 control-label">Name</label>
+                <div class="col-sm-10">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    placeholder="Name"
+                    formControlName="name"
+                    [ngClass]="{
+                      'border-danger':
+                        !signUpForm.controls['name'].valid && isSubmitted
+                          ? true
+                          : false
+                    }"
+                  />
+                </div>
+                <div
+                  class="text-danger error"
+                  *ngIf="!signUpForm.controls['name'].valid && isSubmitted"
+                >
+                  Name is required
+                </div>
+              </div>
+              <div class="form-group mb-4 position-relative">
+                <label for="inputEmail3" class="col-sm-2 control-label"
+                  >Email</label
+                >
+                <div class="col-sm-10">
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="inputEmail3"
+                    placeholder="Email"
+                    [pattern]="emailPattern"
+                    formControlName="email"
+                    [ngClass]="{
+                      'border-danger':
+                        !signUpForm.controls['email'].valid && isSubmitted
+                          ? true
+                          : false
+                    }"
+                  />
+                </div>
+                <div
+                  class="text-danger error"
+                  *ngIf="signUpForm.controls['email'].invalid && isSubmitted"
+                >
+                  <div *ngIf="signUpForm.controls['email'].errors.required">
+                    Email is required
+                  </div>
+                  <div *ngIf="signUpForm.controls['email'].errors.pattern">
+                    Invalid email
+                  </div>
+                </div>
+              </div>
+              <div class="form-group mb-4 position-relative">
+                <label for="inputPassword3" class="col-sm-2 control-label"
+                  >Password</label
+                >
+                <div class="col-sm-10">
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="inputPassword3"
+                    placeholder="Password"
+                    formControlName="password"
+                    [ngClass]="{
+                      'border-danger':
+                        !signUpForm.controls['password'].valid && isSubmitted
+                          ? true
+                          : false
+                    }"
+                  />
+                </div>
+                <div
+                  class="text-danger error"
+                  *ngIf="signUpForm.controls['password'].invalid && isSubmitted"
+                >
+                  <div *ngIf="signUpForm.controls['password'].errors.required">
+                    Password is required
+                  </div>
+                  <div *ngIf="signUpForm.controls['password'].errors.minlength">
+                    Password must be minimum 8 character
+                  </div>
+                </div>
+              </div>
+              <div class="form-group mb-4 position-relative">
+                <label for="inputPassword4" class="col-sm-2 control-label"
+                  >Confirm&nbsp;Password</label
+                >
+                <div class="col-sm-10">
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="inputPassword4"
+                    placeholder="Confirm Password"
+                    formControlName="confirmpassword"
+                    [ngClass]="{
+                      'border-danger':
+                        !signUpForm.controls['confirmpassword'].valid &&
+                        isSubmitted
+                          ? true
+                          : false
+                    }"
+                  />
+                </div>
+                <div
+                  class="text-danger error"
+                  *ngIf="
+                    !signUpForm.controls['confirmpassword'].valid && isSubmitted
+                  "
+                >
+                  <div
+                    class="text-danger"
+                    *ngIf="
+                      !signUpForm.controls['confirmpassword'].valid ||
+                      (signUpForm.get('confirmpassword').errors &&
+                        signUpForm.get('confirmpassword').errors
+                          .confirmpassword &&
+                        isSubmitted) ||
+                      (signUpForm.get('confirmpassword').errors &&
+                        signUpForm.get('confirmpassword').errors
+                          .confirmpassword &&
+                        ((signUpForm.controls['confirmpassword'].dirty &&
+                          isSubmitted) ||
+                          signUpForm.controls['confirmpassword'].touched))
+                    "
+                  >
+                    Password does not match
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group mb-4 position-relative">
+                <div class="col-sm-offset-2 col-sm-10 text-center">
+                  <button type="submit" class="btn btn-dark">Sign Up</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

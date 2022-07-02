@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { EcommerceRoutingModule } from './ecommerce-routing.module';
+import { MainComponent } from './app-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [MainComponent],
   imports: [
+    CommonModule,
     BrowserModule,
-    AppRoutingModule
+    EcommerceRoutingModule,
+    ReactiveFormsModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [MainComponent],
 })
-export class AppModule { }
+export class EcommerceModule {}
