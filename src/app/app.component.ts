@@ -1,34 +1,77 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { ConfirmPasswordValidator } from './passwordValidator';
+import { Component } from '@angular/core';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  Validators,
+} from '@angular/forms';
+import Validation from './utils/validation';
+
 @Component({
-  selector: 'app-main',
-  templateUrl: './main.component.html',
-  styleUrls: ['./main.component.css'],
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
 })
-export class MainComponent implements OnInit {
-  public signUpForm;
-  public isSubmitted = false;
-  emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$';
+export class AppComponent {
+  form: FormGroup = new FormGroup({
+    fullname: new FormControl(''),
+    username: new FormControl(''),
+    email: new FormControl(''),
+    password: new FormControl(''),
+    confirmPassword: new FormControl(''),
+    acceptTerms: new FormControl(false),
+  });
+  submitted = false;
+
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
-    this.signUpForm = this.formBuilder.group(
+    this.form = this.formBuilder.group(
       {
-        name: ['', Validators.required],
+        fullname: ['', Validators.required],
+        username: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(20),
+          ],
+        ],
         email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(8)]],
-        confirmpassword: ['', Validators.required],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(40),
+          ],
+        ],
+        confirmPassword: ['', Validators.required],
+        acceptTerms: [false, Validators.requiredTrue],
       },
-      { validator: ConfirmPasswordValidator.MatchPassword }
+      {
+        validators: [Validation.match('password', 'confirmPassword')],
+      }
     );
   }
 
-  onSubmit() {
-    this.isSubmitted = true;
-    if (this.signUpForm.invalid) {
+  get f(): { [key: string]: AbstractControl } {
+    return this.form.controls;
+  }
+
+  onSubmit(): void {
+    this.submitted = true;
+
+    if (this.form.invalid) {
       return;
     }
-    alert(JSON.stringify(this.signUpForm.value));
+
+    console.log(JSON.stringify(this.form.value, null, 2));
+  }
+
+  onReset(): void {
+    this.submitted = false;
+    this.form.reset();
   }
 }
